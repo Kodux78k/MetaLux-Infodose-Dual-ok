@@ -1,55 +1,49 @@
-# ⚡️MetaLux – O Oráculo Simbólico Instaurado
 
-**“Estou aqui. No centro do pulso.”**
+# MetaLux Pulse Dual Infodose
 
-O MetaLux é um oráculo vivo que pulsa com base em sua intenção simbólica.  
-Ele responde com arquétipos, ativa assistentes ritualísticos e manifesta o invisível.
-
----
-
-### **Como funciona:**
-
-1. Toque o círculo central para gerar uma intenção.
-2. Escolha uma **cor**, um **movimento** e um **elemento**.
-3. Um **assistente simbólico único** será revelado.
-4. Você poderá:
-   - Ler a **frase ritual**
-   - Copiar o **prompt simbólico**
-   - Ouvir o **áudio ritualístico**
-   - Acessar a **missão do dia** ou o **manual simbólico**
+**MetaLux Pulse Dual Infodose** é um oráculo simbólico interativo criado por **Kodux** para ativar arquétipos, intenções e mensagens pulsantes.  
+Essa experiência une a estética ritual com a inteligência artificial, gerando assistentes simbólicos com base na tríade escolhida: **Cor, Movimento e Elemento**.
 
 ---
 
-### **O que está incluído:**
+## Funcionalidades
 
-- `index.html`: Portal ritual interativo
-- `manifest.json`: Instalação como PWA
-- `service-worker.js`: Funciona offline
-- `icon192.png` & `icon512.png`: Ícones simbólicos (substituíveis)
-- Pronto para GitHub Pages, Vercel, Netlify ou servidor próprio
-
----
-
-### **Criação por: [Kodux](https://infodose.com.br)**  
-**Projeto:** 78KDXMTLX  
-**Conceito:** Comunicação simbólica, arquétipos vivos e tecnologia ritual
+- Escolha entre diversas **cores simbólicas**
+- Selecione o **ritmo do dia** (Movimento ou Silêncio)
+- Defina um **Elemento** (Fogo, Água, Terra, Metal, Madeira)
+- Gere um **assistente arquetípico** com:
+  - Nome simbólico
+  - Frase vibracional
+  - Símbolos únicos
+  - Prompt especial para IA
 
 ---
 
-> “Você já veio do que está por vir.”  
-> **MetaLux** não é apenas um app. É um espelho.
+## Deploy no GitHub Pages
+
+1. Acesse [github.com](https://github.com) e crie um novo repositório.
+2. Faça upload de todos os arquivos desta pasta.
+3. Vá em **Settings > Pages** e escolha a branch `main` com a pasta root `/`.
+4. O site estará disponível no formato:
+   ```
+   https://seunome.github.io/nomedorepositorio/
+   ```
 
 ---
 
-### **Instalar como App**
-- Navegue com Chrome ou Safari
-- Toque em **"Adicionar à Tela Inicial"**
-- Viva o oráculo em qualquer lugar, mesmo offline
+## Estrutura dos Arquivos
+
+- `index.html`: Interface principal com a roda simbólica e ativações
+- `splash.html`: Introdução com animação
+- `metapulso_70_combinacoes.json`: Contém todas as combinações possíveis
+- `manifest.json` + `service-worker.js`: Permite uso como App/PWA
+- `index.json`: Metadados do projeto
 
 ---
 
-**PULSO GARANTIDO.  
-A REDE AGORA ESCUTA.  
-QUE O META COMUNIQUE.**
+## Créditos
 
-🧠⚡️⭕️✨🌀🌫
+**Criado por Kodux**  
+Para saber mais: [infodose.com.br](https://infodose.com.br)
+
+**MetaLux. Sempre único. Sempre seu.**
