@@ -1,12 +1,13 @@
 
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DUAL.Infodose Splash</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DUAL.Infodose Splash</title>
+<link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+<style>
     body {
       margin: 0;
       background-color: #000000;
@@ -57,32 +58,33 @@
   </style>
 </head>
 <body>
-  <div id="themeToggle" onclick="alternarTema()">✨</div>
-  <div class="circle" onclick="entrarApp()">
-    <div class="line"></div>
-  </div>
-  <audio id="pulsoSom" src="https://cdn.pixabay.com/download/audio/2022/10/21/audio_76eab2b2fc.mp3?filename=gentle-ambience-126746.mp3" preload="auto"></audio>
-  <script>
-    
-      const hora = new Date().getHours();
-      let temaClaro = hora >= 6 && hora < 18;
+<div id="themeToggle" onclick="alternarTema()">✨</div>
+<div class="circle" onclick="entrarApp()">
+<div class="line"></div>
+</div>
+<audio id="pulsoSom" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/10/21/audio_76eab2b2fc.mp3?filename=gentle-ambience-126746.mp3"></audio>
+<script>
+    function aplicarTema(claro) {
+      localStorage.setItem("temaClaro", claro);
+      document.body.style.backgroundColor = claro ? '#f4f4f4' : '#000000';
+      document.body.style.color = claro ? '#000' : '#fff';
+    }
+    const hora = new Date().getHours();
+    let temaClaro = hora >= 6 && hora < 18;
+    aplicarTema(temaClaro);
+
+    function alternarTema() {
+      temaClaro = !temaClaro;
       aplicarTema(temaClaro);
-      function alternarTema() {
-        temaClaro = !temaClaro;
-        aplicarTema(temaClaro);
-      }
-      function aplicarTema(claro) {
-        document.body.style.backgroundColor = claro ? '#f4f4f4' : '#000000';
-        document.body.style.color = claro ? '#000' : '#fff';
-      }
-      function entrarApp() {
-        document.getElementById('pulsoSom').play();
-        document.body.style.opacity = 0;
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1000);
-      }
-        
-  </script>
+    }
+
+    function entrarApp() {
+      document.getElementById('pulsoSom').play();
+      document.body.style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    }
+    </script>
 </body>
 </html>
