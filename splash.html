@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Splash_V7_GradientRefined</title>
+  <title>Splash_V8_Blessed</title>
   <style>
     /* Tema Escuro (Padrão) */
     body {
@@ -50,20 +50,29 @@
       50% { transform: scale(1.06); opacity: 0.9; }
     }
 
+    /* Pulso sutil ao trocar de tema */
+    .symbol.pulse-effect {
+      animation: pulseThemeChange 0.4s ease-out;
+    }
+
+    @keyframes pulseThemeChange {
+      0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); }
+      50% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); }
+    }
+
     /* Ajuste de sombras e brilho para modo claro */
     .light-mode .halo {
       background: radial-gradient(circle, rgba(0,0,0,0.08) 0%, transparent 70%);
     }
 
-    /* Ajuste do degradê para o SVG no modo claro */
     .light-mode .symbol svg {
-      stroke: url(#grad-light); /* Aplica o degradê cinza */
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); /* Brilho sutil */
+      stroke: url(#grad-light);
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
     }
 
-    /* Ajuste do degradê para o SVG no modo escuro */
     .symbol svg {
-      stroke: url(#grad-dark); /* Aplica o degradê branco suave */
+      stroke: url(#grad-dark);
     }
 
     /* Botão Minimalista de Troca de Tema */
@@ -105,13 +114,11 @@
   <div class="symbol" id="symbol">
     <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- Degradê para o tema escuro -->
         <linearGradient id="grad-dark" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" style="stop-color:#ffffff; stop-opacity:0.8" />
           <stop offset="100%" style="stop-color:#cccccc; stop-opacity:0.3" />
         </linearGradient>
 
-        <!-- Degradê para o tema claro -->
         <linearGradient id="grad-light" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" style="stop-color:#555555; stop-opacity:0.8" />
           <stop offset="100%" style="stop-color:#aaaaaa; stop-opacity:0.3" />
@@ -123,7 +130,6 @@
     </svg>
   </div>
 
-  <!-- Botão de Troca de Tema -->
   <div class="theme-switch" onclick="toggleTheme(event)" id="themeSwitch"></div>
 
   <script>
@@ -137,30 +143,35 @@
       symbol.classList.add('active');
 
       setTimeout(() => {
-        window.location.href = 'index.html'; // Altere para a página desejada
+        
+    document.body.classList.add('fade-out');
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1000);
+    
       }, 1000);
     }
 
-    // Temporizador automático (7 segundos)
     setTimeout(() => {
       triggerTransition();
     }, 7000);
 
-    // Troca de tema manual com animação no botão
     function toggleTheme(event) {
-      event.stopPropagation(); // Evita acionar a transição ao clicar no botão
+      event.stopPropagation();
       document.body.classList.toggle('light-mode');
       const themeSwitch = document.getElementById('themeSwitch');
-      
-      // Adiciona animação ao botão
+      const symbol = document.getElementById('symbol');
+
       themeSwitch.classList.add('active');
+      symbol.classList.add('pulse-effect');
+
       setTimeout(() => {
         themeSwitch.classList.remove('active');
+        symbol.classList.remove('pulse-effect');
       }, 500);
 
       localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
 
-      // Atualiza a cor do SVG para o tema correto
       const svg = document.querySelector('.symbol svg');
       if (document.body.classList.contains('light-mode')) {
         svg.querySelectorAll("circle, line, path").forEach(el => el.setAttribute("stroke", "url(#grad-light)"));
@@ -169,7 +180,6 @@
       }
     }
 
-    // Ajuste automático pelo horário
     function applyAutoTheme() {
       const hour = new Date().getHours();
       const preferredTheme = localStorage.getItem('theme');
