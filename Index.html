@@ -1,0 +1,199 @@
+<html lang="pt-br"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infodose | KODUX</title>
+  <style>
+    :root {
+      --bg-dark-start: #0a0a0a;
+      --bg-dark-end: #000000;
+      --bg-light-start: #f0f0f0;
+      --bg-light-end: #dcdcdc;
+      --pulse-bg: rgba(255, 255, 255, 0.08);
+      --text-dark: #ffffff;
+      --text-light: #111111;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: radial-gradient(ellipse at center, var(--bg-dark-start), var(--bg-dark-end));
+      color: var(--text-dark);
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body.light-mode {
+      background: radial-gradient(ellipse at center, var(--bg-light-start), var(--bg-light-end));
+      color: var(--text-light);
+    }
+
+    .symbol-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin-bottom: 30px;
+      animation: fadeIn 1.5s ease;
+      cursor: pointer;
+    }
+
+    .halo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glow 4s ease-in-out infinite;
+    }
+
+    .symbol {
+      width: 100%;
+      height: 100%;
+      animation: pulse 3s infinite;
+      z-index: 2;
+      transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+    }
+
+    @keyframes glow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.06); opacity: 0.9; }
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      max-width: 500px;
+      width: 90%;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 1rem;
+      background: transparent;
+      border: none;
+      color: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.4s ease-in-out;
+    }
+
+    .light-mode .theme-toggle {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .circle-reverse {
+      margin-top: 2rem;
+      cursor: pointer;
+      padding: 1rem;
+      border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.3);
+      transition: background 0.3s;
+    }
+
+    .circle-reverse:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+  </style>
+</head>
+<body class="">
+  <div class="theme-toggle" onclick="toggleTheme()"></div>
+
+  <div class="symbol-container" onclick="triggerPulse()">
+    <div class="halo"></div>
+    <div class="symbol" style="">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff; stop-opacity:0.8"></stop>
+            <stop offset="100%" style="stop-color:#cccccc; stop-opacity:0.3"></stop>
+          </linearGradient>
+          <linearGradient id="grad-light" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#555555; stop-opacity:0.8"></stop>
+            <stop offset="100%" style="stop-color:#aaaaaa; stop-opacity:0.3"></stop>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="90" stroke="url(#grad-dark)" stroke-width="2" fill="none"></circle>
+        <line x1="100" y1="10" x2="100" y2="190" stroke="url(#grad-dark)" stroke-width="3" opacity="0.2"></line>
+        <path d="M100 10 A90 90 0 0 0 100 190" stroke="url(#grad-dark)" stroke-width="6" fill="none"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="input-box">
+    <input type="text" placeholder="Digite sua mensagem...">
+    <button class="icon-button">▶️</button>
+  </div>
+
+  <div class="circle-reverse" onclick="goToSplash()">Voltar ao Splash</div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    function applySavedTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') {
+        document.body.classList.add('light-mode');
+      }
+    }
+
+    function triggerPulse() {
+      const symbol = document.querySelector('.symbol');
+      symbol.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        symbol.style.transform = '';
+      }, 200);
+    }
+
+    function goToSplash() {
+      window.location.href = "splash.html";
+    }
+
+    applySavedTheme();
+  </script>
+
+
+</body></html>
