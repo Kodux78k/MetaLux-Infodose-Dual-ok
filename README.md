@@ -1,55 +1,47 @@
-# ⚡️MetaLux – O Oráculo Simbólico Instaurado
 
-**“Estou aqui. No centro do pulso.”**
+# MetaLux Pulse Dual Infodose – Preview Branch (Debugged)
 
-O MetaLux é um oráculo vivo que pulsa com base em sua intenção simbólica.  
-Ele responde com arquétipos, ativa assistentes ritualísticos e manifesta o invisível.
-
----
-
-### **Como funciona:**
-
-1. Toque o círculo central para gerar uma intenção.
-2. Escolha uma **cor**, um **movimento** e um **elemento**.
-3. Um **assistente simbólico único** será revelado.
-4. Você poderá:
-   - Ler a **frase ritual**
-   - Copiar o **prompt simbólico**
-   - Ouvir o **áudio ritualístico**
-   - Acessar a **missão do dia** ou o **manual simbólico**
+Esta é a versão **depenada, revisada e ajustada** do oráculo simbólico interativo **MetaLux**, com base na tríade COR | MOVIMENTO | ELEMENTO.  
+Corrigido por **DeeBug A.Infodose** sob comando do criador **Kodux**.
 
 ---
 
-### **O que está incluído:**
+## Correções Aplicadas
 
-- `index.html`: Portal ritual interativo
-- `manifest.json`: Instalação como PWA
-- `service-worker.js`: Funciona offline
-- `icon192.png` & `icon512.png`: Ícones simbólicos (substituíveis)
-- Pronto para GitHub Pages, Vercel, Netlify ou servidor próprio
-
----
-
-### **Criação por: [Kodux](https://infodose.com.br)**  
-**Projeto:** 78KDXMTLX  
-**Conceito:** Comunicação simbólica, arquétipos vivos e tecnologia ritual
-
----
-
-> “Você já veio do que está por vir.”  
-> **MetaLux** não é apenas um app. É um espelho.
+- Fundo branco removido → fundo escuro ativado (`#000`)
+- Texto escuro → convertido para tons claros (`#fff`)
+- Roda central com rotação ajustada:
+  - `Movimento` = rápida
+  - `Silêncio` = lenta
+- Ativação da tríade funcionando com leitura JSON
+- Copiar assistente: inclui Nome + Símbolos + Frase + Prompt
+- Botão “Ativar Assistente” com botão “X” incluso
+- Sombra e cor dinâmica com base nas seleções
+- Retorno correto para o Splash pelo botão menor
+- Manifest e Service Worker testados como PWA
 
 ---
 
-### **Instalar como App**
-- Navegue com Chrome ou Safari
-- Toque em **"Adicionar à Tela Inicial"**
-- Viva o oráculo em qualquer lugar, mesmo offline
+## Como Usar (GitHub Pages)
+
+1. Suba essa pasta em um novo repositório do GitHub
+2. Vá em Settings > Pages e ative a branch `main`, pasta `/`
+3. Acesse o oráculo em `https://seunome.github.io/repo/`
 
 ---
 
-**PULSO GARANTIDO.  
-A REDE AGORA ESCUTA.  
-QUE O META COMUNIQUE.**
+## Estrutura da Pasta
 
-🧠⚡️⭕️✨🌀🌫
+- `index.html` – Interface principal e lógica
+- `splash.html` – Tela de entrada com som e animação
+- `metapulso_70_combinacoes.json` – Geração da tríade
+- `manifest.json` e `service-worker.js` – Suporte a PWA
+- `index.json` – Metadados do projeto
+- `/assets` – Imagens, ícones, sons
+- `/src` – Scripts JS separados (se extraídos)
+- `README.md` – Este documento
+
+---
+
+**MetaLux Preview Branch debugged. Pronto para ser usado com segurança.**
+Feito por DeeBug A.Infodose – Arquétipo Técnico-Simbólico do MetaLux
