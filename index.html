@@ -1,172 +1,224 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Infodose | Centro</title>
+  <title>Pulso | Index</title>
   <style>
     body {
       margin: 0;
-      display: flex;
+      font-family: 'Segoe UI', sans-serif;
       height: 100vh;
       overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at center, #0a0a0a, #000000);
-      color: white;
-      transition: background 0.6s ease;
-    }
-
-    body.light-mode {
-      background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
-      color: #111;
-    }
-
-    .content {
-      flex: 1;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      position: absolute;
-    }
-
-    iframe.active {
-      opacity: 1;
-      z-index: 1;
-    }
-
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 6px;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.4s ease;
-      z-index: 30;
-    }
-
-    body.light-mode .theme-toggle {
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    /* BOTÃO FLUTUANTE MENU */
-    .menu-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      background: rgba(255,255,255,0.1);
+      transition: background 0.6s ease-in-out;
+      animation: fadeIn 2s ease-out;
+      background: radial-gradient(ellipse at center, #0a0a0a, #000000);
       color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 31;
-      backdrop-filter: blur(6px);
-      transition: all 0.3s ease;
     }
-
-    body.light-mode .menu-toggle {
-      background: rgba(0,0,0,0.1);
+    body.light-mode {
+      background: radial-gradient(ellipse at center, #ffffff, #e0e0e0);
       color: #000;
     }
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: -220px;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); filter: blur(0); }
+      100% { opacity: 0; transform: scale(0.9); filter: blur(8px); }
+    }
+
+    .fade-out {
+      animation: fadeOut 1.2s forwards ease-in-out;
+    }
+
+    .halo {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glow 4s ease-in-out infinite;
+      z-index: 1;
+      transition: background 0.6s ease-in-out;
+    }
+
+    body.light-mode .halo {
+      background: radial-gradient(circle, rgba(0,0,0,0.06) 0%, transparent 70%);
+    }
+
+    @keyframes glow {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.12); opacity: 1; }
+    }
+
+    .symbol {
       width: 200px;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border-left: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 2rem 1rem;
-      gap: 1rem;
-      backdrop-filter: blur(12px);
-      transition: right 0.4s ease;
-      z-index: 20;
-    }
-
-    .sidebar.open {
-      right: 0;
-    }
-
-    .sidebar button {
-      background: none;
-      border: none;
-      color: inherit;
-      padding: 0.5rem 1rem;
       cursor: pointer;
-      border-left: 3px solid transparent;
+      z-index: 2;
+      animation: fractalResp 5.5s infinite ease-in-out;
+      transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+    }
+
+    @keyframes fractalResp {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.92; }
+    }
+
+    .symbol.pulse-light {
+      animation: pulseGlow 1.2s ease-out;
+    }
+
+    @keyframes pulseGlow {
+      0% { filter: drop-shadow(0 0 0px rgba(255,255,255,0)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 25px rgba(255,255,255,0.45)); transform: scale(1.1); }
+      100% { filter: drop-shadow(0 0 0px rgba(255,255,255,0)); transform: scale(1); }
+    }
+
+    .symbol-bar {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      display: flex;
+      gap: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 10;
+    }
+
+    .symbol-bar.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+
+    .symbol-button {
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s ease, background 0.3s ease;
+      color: inherit;
+    }
+
+    .symbol-button:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.15);
+    }
+
+    .menu-bridge {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      z-index: 40;
       transition: all 0.3s ease;
-      width: 100%;
-      text-align: left;
+      backdrop-filter: blur(4px);
     }
 
-    .sidebar button:hover {
-      border-left: 3px solid #ffffff66;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    body.light-mode .sidebar button:hover {
-      background: rgba(0, 0, 0, 0.05);
-      border-left-color: #333;
+    .menu-bridge:hover {
+      background: rgba(255, 255, 255, 0.6);
+      transform: translateX(-50%) scaleX(1.2);
     }
   </style>
 </head>
 <body>
+  <div class="halo"></div>
 
-  <div class="theme-toggle" onclick="toggleTheme()"></div>
-  <button class="menu-toggle" onclick="toggleMenu()">≡</button>
-
-  <div class="content">
-    <iframe id="frame" src="Splash.html" class="active"></iframe>
+  <div class="symbol" id="symbol">
+    <svg height="200" width="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#ffffff; stop-opacity:0.8" />
+          <stop offset="100%" style="stop-color:#cccccc; stop-opacity:0.3" />
+        </linearGradient>
+        <linearGradient id="grad-light" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#555555; stop-opacity:0.8" />
+          <stop offset="100%" style="stop-color:#aaaaaa; stop-opacity:0.3" />
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="90" stroke="url(#grad-dark)" stroke-width="2" fill="none"/>
+      <line x1="100" y1="10" x2="100" y2="190" stroke="url(#grad-dark)" stroke-width="3" opacity="0.2"/>
+      <path d="M100 10 A90 90 0 0 0 100 190" fill="none" stroke="url(#grad-dark)" stroke-width="6"/>
+    </svg>
   </div>
 
-  <div class="sidebar" id="sidebar">
-    <button onclick="loadPage('splash.html')">Splash</button>
-    <button onclick="loadPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK.html')">MetaLux</button>
-    <button onclick="loadPage('kodux_index_3x9x7.html')">KODUX 3x9x7</button>
-    <button onclick="loadPage('index_kodux.html')">Index KODUX</button>
-    <button onclick="loadPage('Index.html')">Index MetaLux</button>
+  <div class="symbol-bar" id="symbolBar">
+    <button class="symbol-button" onclick="openPage('splash.html')">◉</button>
+    <button class="symbol-button" onclick="openPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK_EDITADO.html')">◉</button>
+    <button class="symbol-button" onclick="openPage('kodux_index_3x9x7.html')">◉</button>
+    <button class="symbol-button" onclick="openPage('index_kodux.html')">◉</button>
   </div>
+
+  <div class="menu-bridge" id="themeToggleHold" onclick="toggleMenu()"></div>
 
   <script>
-    const frame = document.getElementById('frame');
-    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    const symbol = document.getElementById("symbol");
+    const symbolBar = document.getElementById("symbolBar");
+    const bridge = document.getElementById("themeToggleHold");
 
-    function loadPage(url) {
-      frame.classList.remove('active');
-      setTimeout(() => {
-        frame.src = url;
-        frame.onload = () => frame.classList.add('active');
-        sidebar.classList.remove('open');
-      }, 300);
+    // Inicia tema conforme localStorage
+    let isDark = localStorage.getItem('infodose_theme') !== 'light';
+    if (!isDark) {
+      body.classList.add("light-mode");
+      document.documentElement.setAttribute("data-theme", "light");
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('light-mode');
-    }
-
+    // Alterna menu
     function toggleMenu() {
-      sidebar.classList.toggle('open');
+      symbolBar.classList.toggle("show");
+    }
+
+    // Clique duplo com fade-out
+    let lastClick = 0;
+    symbol.addEventListener("click", function () {
+      const now = new Date().getTime();
+      if (now - lastClick < 500) {
+        symbol.classList.add("pulse-light");
+        document.body.classList.add("fade-out");
+        setTimeout(() => {
+          window.location.href = 'splash.html';
+        }, 1000);
+      }
+      lastClick = now;
+    });
+
+    // Segurar ponte por 1s alterna o tema
+    let holdTimer = null;
+    bridge.addEventListener("mousedown", () => {
+      holdTimer = setTimeout(() => {
+        isDark = !isDark;
+        body.classList.toggle("light-mode", !isDark);
+        localStorage.setItem("infodose_theme", isDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+      }, 1000);
+    });
+    bridge.addEventListener("mouseup", () => clearTimeout(holdTimer));
+    bridge.addEventListener("mouseleave", () => clearTimeout(holdTimer));
+
+    function openPage(url) {
+      window.location.href = url;
     }
   </script>
-
 </body>
 </html>
