@@ -1,20 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pulso | Index</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infodose | Menu Ponte-Line</title>
   <style>
     body {
       margin: 0;
-      background: radial-gradient(circle at center, #0a0a0a, #000000);
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
       height: 100vh;
       overflow: hidden;
+      background: radial-gradient(circle at center, #0a0a0a, #000000);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.6s ease;
+    }
+
+    body.light-mode {
+      background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
+      color: #111;
+    }
+
+    .content {
+      width: 100%;
+      height: 100%;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      position: absolute;
+    }
+
+    iframe.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      z-index: 30;
+    }
+
+    body.light-mode .theme-toggle {
+      background: rgba(0, 0, 0, 0.3);
     }
 
     .menu-bridge {
@@ -37,28 +81,32 @@
       transform: translateX(-50%) scaleX(1.2);
     }
 
-    .symbol-bar {
+    body.light-mode .menu-bridge {
+      background: rgba(0,0,0,0.2);
+    }
+
+    .sub-buttons {
       position: fixed;
       bottom: 80px;
       left: 50%;
-      transform: translateX(-50%) translateY(20px);
+      transform: translateX(-50%);
       display: flex;
-      gap: 20px;
+      gap: 18px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .symbol-bar.show {
+    .sub-buttons.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
       pointer-events: all;
+      transform: translateX(-50%) translateY(-10px);
     }
 
-    .symbol-button {
+    .sub-button {
       width: 36px;
       height: 36px;
-      font-size: 18px;
+      font-size: 20px;
       color: white;
       background: rgba(255,255,255,0.08);
       border: none;
@@ -67,49 +115,59 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(4px);
       transition: transform 0.3s ease, background 0.3s ease;
     }
 
-    .symbol-button:hover {
+    .sub-button:hover {
       background: rgba(255,255,255,0.2);
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
 
-    .symbol-button:active {
-      animation: breath 0.4s ease;
+    body.light-mode .sub-button {
+      background: rgba(0,0,0,0.08);
+      color: #111;
     }
-
-    @keyframes breath {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-
   </style>
 </head>
 <body>
 
-  <div class="symbol-bar" id="symbolBar">
-    <button class="symbol-button" onclick="openPage('Splash.html')">◉</button>
-    <button class="symbol-button" onclick="openPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK.html')">◉</button>
-    <button class="symbol-button" onclick="openPage('kodux_index_3x9x7.html')">◉</button>
-    <button class="symbol-button" onclick="openPage('index_kodux.html')">◉</button>
-  </div>
+<div class="theme-toggle" onclick="toggleTheme()"></div>
 
-  <div class="menu-bridge" onclick="toggleMenu()"></div>
+<div class="content">
+  <iframe id="frame" src="Splash.html" class="active"></iframe>
+</div>
 
-  <script>
-    const symbolBar = document.getElementById('symbolBar');
+<div class="sub-buttons" id="menu">
+  <button class="sub-button" onclick="loadPage('Splash.html')">◉</button>
+  <button class="sub-button" onclick="loadPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK.html')">◉</button>
+  <button class="sub-button" onclick="loadPage('kodux_index_3x9x7.html')">◉</button>
+  <button class="sub-button" onclick="loadPage('index_kodux.html')">◉</button>
+</div>
 
-    function toggleMenu() {
-      symbolBar.classList.toggle('show');
-    }
+<div class="menu-bridge" onclick="toggleMenu()"></div>
 
-    function openPage(url) {
-      window.location.href = url;
-    }
-  </script>
+<script>
+  const frame = document.getElementById('frame');
+  const menu = document.getElementById('menu');
+
+  function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+  }
+
+  function toggleMenu() {
+    menu.classList.toggle('show');
+  }
+
+  function loadPage(url) {
+    frame.classList.remove('active');
+    setTimeout(() => {
+      frame.src = url;
+      frame.onload = () => frame.classList.add('active');
+      menu.classList.remove('show');
+    }, 300);
+  }
+</script>
 
 </body>
 </html>
