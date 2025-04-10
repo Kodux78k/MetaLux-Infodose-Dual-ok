@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>MetaLux Index</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    :root {
+      --bg-start: #f0f0f0;
+      --bg-end: #dcdcdc;
+      --text-color: #111;
+      --pulse-bg: rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      background: radial-gradient(ellipse at center, var(--bg-start), var(--bg-end));
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 4vh 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      transition: all 1.5s ease;
+    }
+
+    .circle-wrapper {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .pulse-shadow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 180px;
+      height: 180px;
+      background: var(--pulse-bg);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 3s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .circle {
+      width: 160px;
+      height: 160px;
+      border: 3px solid rgba(0,0,0,0.05);
+      border-top: 3px solid rgba(0,0,0,0.4);
+      border-radius: 50%;
+      animation: spin 6s linear infinite;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.06; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      max-width: 500px;
+      width: 100%;
+      background: rgba(0,0,0,0.02);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 12px;
+      padding: 0.5rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 1rem;
+      background: transparent;
+      border: none;
+      color: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-button svg {
+      fill: #111;
+      width: 22px;
+      height: 22px;
+      opacity: 0.6;
+      transition: transform 0.2s;
+    }
+
+    .icon-button:hover svg {
+      transform: scale(1.2);
+    }
+
+    .response {
+      margin-top: 2vh;
+      max-width: 500px;
+      text-align: center;
+      opacity: 0.5;
+      font-size: 1rem;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <div class="circle-wrapper" onclick="document.querySelector('.response').textContent = 'Luz ativada pela intenção'">
+    <div class="pulse-shadow"></div>
+    <div class="circle"></div>
+  </div>
+
+  <div class="input-box">
+    <input type="text" placeholder="Intenção clara aqui..." />
+    <button class="icon-button">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </button>
+  </div>
+
+  <div class="response">Aguardando intenção luminosa...</div>
+</body>
+</html>
