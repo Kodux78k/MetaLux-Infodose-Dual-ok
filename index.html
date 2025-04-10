@@ -1,113 +1,170 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pulso | Index</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infodose | Centro</title>
   <style>
     body {
       margin: 0;
-      background: radial-gradient(circle at center, #0a0a0a, #000000);
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
+      display: flex;
       height: 100vh;
       overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at center, #0a0a0a, #000000);
+      color: white;
+      transition: background 0.6s ease;
+    }
+
+    body.light-mode {
+      background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
+      color: #111;
+    }
+
+    .content {
+      flex: 1;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
-    .menu-bridge {
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      position: absolute;
+    }
+
+    iframe.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .theme-toggle {
       position: fixed;
-      bottom: 28px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 36px;
-      height: 4px;
-      border-radius: 2px;
+      width: 40px;
+      height: 6px;
+      border-radius: 3px;
       background: rgba(255, 255, 255, 0.3);
       cursor: pointer;
-      z-index: 40;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
+      transition: all 0.4s ease;
+      z-index: 30;
     }
 
-    .menu-bridge:hover {
-      background: rgba(255, 255, 255, 0.6);
-      transform: translateX(-50%) scaleX(1.2);
+    body.light-mode .theme-toggle {
+      background: rgba(0, 0, 0, 0.3);
     }
 
-    .symbol-bar {
+    /* BOTÃO FLUTUANTE MENU */
+    .menu-toggle {
       position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      display: flex;
-      gap: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .symbol-bar.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: all;
-    }
-
-    .symbol-button {
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: rgba(255,255,255,0.1);
       color: white;
-      background: rgba(255,255,255,0.08);
       border: none;
-      border-radius: 50%;
+      padding: 6px 12px;
+      border-radius: 8px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      z-index: 31;
       backdrop-filter: blur(6px);
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    .symbol-button:hover {
-      background: rgba(255,255,255,0.2);
-      transform: scale(1.15);
+    body.light-mode .menu-toggle {
+      background: rgba(0,0,0,0.1);
+      color: #000;
     }
 
-    .symbol-button:active {
-      animation: breath 0.4s ease;
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -220px;
+      width: 200px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem 1rem;
+      gap: 1rem;
+      backdrop-filter: blur(12px);
+      transition: right 0.4s ease;
+      z-index: 20;
     }
 
-    @keyframes breath {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
+    .sidebar.open {
+      right: 0;
     }
 
+    .sidebar button {
+      background: none;
+      border: none;
+      color: inherit;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+      width: 100%;
+      text-align: left;
+    }
+
+    .sidebar button:hover {
+      border-left: 3px solid #ffffff66;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    body.light-mode .sidebar button:hover {
+      background: rgba(0, 0, 0, 0.05);
+      border-left-color: #333;
+    }
   </style>
 </head>
 <body>
 
-  <div class="symbol-bar" id="symbolBar">
-    <button class="symbol-button" onclick="openPage('splash.html')">◉</button>
-    <button class="symbol-button" onclick="openPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK.html')">◉</button>
-    <button class="symbol-button" onclick="openPage('kodux_index_3x9x7.html')">◉</button>
-    <button class="symbol-button" onclick="openPage('index_kodux.html')">◉</button>
+  <div class="theme-toggle" onclick="toggleTheme()"></div>
+  <button class="menu-toggle" onclick="toggleMenu()">≡</button>
+
+  <div class="content">
+    <iframe id="frame" src="Splash.html" class="active"></iframe>
   </div>
 
-  <div class="menu-bridge" onclick="toggleMenu()"></div>
+  <div class="sidebar" id="sidebar">
+    <button onclick="loadPage('Splash.html')">Splash</button>
+    <button onclick="loadPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK.html')">MetaLux</button>
+    <button onclick="loadPage('kodux_index_3x9x7.html')">KODUX 3x9x7</button>
+    <button onclick="loadPage('index_kodux.html')">Index KODUX</button>
+    <button onclick="loadPage('index_metalux.html')">Index MetaLux</button>
+  </div>
 
   <script>
-    const symbolBar = document.getElementById('symbolBar');
+    const frame = document.getElementById('frame');
+    const sidebar = document.getElementById('sidebar');
 
-    function toggleMenu() {
-      symbolBar.classList.toggle('show');
+    function loadPage(url) {
+      frame.classList.remove('active');
+      setTimeout(() => {
+        frame.src = url;
+        frame.onload = () => frame.classList.add('active');
+        sidebar.classList.remove('open');
+      }, 300);
     }
 
-    function openPage(url) {
-      window.location.href = url;
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+    }
+
+    function toggleMenu() {
+      sidebar.classList.toggle('open');
     }
   </script>
 
