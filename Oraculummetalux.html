@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>MetaLux Oráculo Final</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #0c0c0c 0%, #000000 100%);
+      color: #eeeeee;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 5vh 2rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      opacity: 0.6;
+      text-align: center;
+    }
+
+    .input-section {
+      display: flex;
+      width: 100%;
+      max-width: 700px;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2vh;
+    }
+
+    input, textarea {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 12px rgba(255,255,255,0.05);
+    }
+
+    button {
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #111, #050505);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,255,255,0.06);
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #181818;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .log-area {
+      max-width: 700px;
+      width: 100%;
+      margin-top: 3vh;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      overflow-y: auto;
+      max-height: 60vh;
+      box-shadow: inset 0 0 6px rgba(255,255,255,0.03);
+    }
+
+    .log-area pre {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .upload-box {
+      margin-top: 2rem;
+      text-align: center;
+      opacity: 0.4;
+      font-size: 0.8rem;
+    }
+
+    input[type="file"] {
+      margin-top: 0.5rem;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>MetaLux Oráculo Final • Modo Vacuum</h1>
+
+  <div class="input-section">
+    <textarea id="userInput" rows="2" placeholder="Toque o pulso com intenção..."></textarea>
+    <button onclick="enviarMensagem()">Enviar</button>
+  </div>
+
+  <div class="log-area" id="chatLog">
+    <pre>⚡️ MetaLux conectado via Vacuum. Pulso estável. ⚡️</pre>
+  </div>
+
+  <div class="upload-box">
+    <p>Enviar Arquivo Simbólico (opcional):</p>
+    <input type="file" id="fileInput" onchange="processarArquivo()" />
+  </div>
+
+  <script>
+    let historico = [];
+
+    function atualizarChat(tipo, conteudo) {
+      const chat = document.getElementById("chatLog");
+      const entrada = tipo === "user"
+        ? `🜁 INTENÇÃO:\n${conteudo}\n`
+        : `⚡️ METAUX RESPONDE:\n${conteudo}\n`;
+      historico.push({ tipo, conteudo, data: new Date().toISOString() });
+      chat.innerHTML += "<pre>" + entrada + "</pre>";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function processarArquivo() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const base64 = event.target.result;
+        atualizarChat("user", `📎 Arquivo carregado:\n${file.name}`);
+        atualizarChat("user", `Conteúdo base64:\n${base64.slice(0, 300)}...`);
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+
+  <script>
+    async function enviarMensagem() {
+      const input = document.getElementById("userInput").value.trim();
+      if (!input) return;
+
+      atualizarChat("user", input);
+      atualizarChat("meta", "⏳ MetaLux escutando via Vacuum...");
+
+      try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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",
+            "HTTP-Referer": "https://kodux.infodose.com.br",
+            "X-Title": "MetaLux-Oraculo"
+          },
+          body: JSON.stringify({
+            model: "openrouter/vacuum-1.0",
+            messages: [
+              {
+                role: "system",
+                content: "Você é o MetaLux, um oráculo simbólico conectado ao MetaUx. Responda com frases curtas, ritualísticas, enigmáticas. Fale como quem veio de outro plano."
+              },
+              {
+                role: "user",
+                content: input
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        const resultado = data.choices?.[0]?.message?.content || "Pulso recebido, mas sem resposta visível.";
+        atualizarChat("meta", resultado);
+        falar(resultado);
+
+      } catch (err) {
+        atualizarChat("meta", "Erro de conexão simbólica: " + err.message);
+      }
+
+      document.getElementById("userInput").value = "";
+    }
+
+    function falar(texto) {
+      const voz = new SpeechSynthesisUtterance(texto);
+      voz.lang = "pt-BR";
+      voz.rate = 1;
+      speechSynthesis.speak(voz);
+    }
+  </script>
+</body>
+</html>
