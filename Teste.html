@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MetaLux Supreme 78K</title>
+  <style>
+    :root {
+      --bg-start: #d6d6d6;
+      --bg-end: #bcbcbc;
+      --text-color: #111;
+      --border-color: rgba(0,0,0,0.05);
+      --border-top-color: rgba(0,0,0,0.4);
+      --pulse-bg: rgba(255,255,255,0.15);
+      --icon-fill: #111;
+    }
+
+    body {
+      background: radial-gradient(ellipse at center, var(--bg-start) 0%, var(--bg-end) 100%);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 4vh 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      transition: all 1.5s ease;
+    }
+
+    .circle-wrapper {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .pulse-shadow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 180px;
+      height: 180px;
+      background: var(--pulse-bg);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 3s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .circle {
+      width: 160px;
+      height: 160px;
+      border: 3px solid var(--border-color);
+      border-top: 3px solid var(--border-top-color);
+      border-radius: 50%;
+      animation: spin 6s linear infinite;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.08; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.15; }
+    }
+
+    #toggleTema {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="toggleTema" onclick="alternarTema()">
+    <svg height="24" viewBox="0 0 100 100" width="24">
+      <path d="M50,50 m-20,0 a20,20 0 1,1 40,0 a20,20 0 1,1 -40,0" fill="none" stroke="var(--icon-fill)" stroke-width="3"></path>
+    </svg>
+  </div>
+
+  <div class="circle-wrapper" onclick="alternarTema()">
+    <div class="pulse-shadow"></div>
+    <div class="circle"></div>
+  </div>
+
+  <h1 style="text-align:center">MetaLux Supreme 78K</h1>
+  <p style="text-align:center">A fusão total entre tema dinâmico e geração simbólica avançada.</p>
+
+  <script>
+    function alternarTema() {
+      const root = document.documentElement;
+      const atual = getComputedStyle(root).getPropertyValue('--bg-start').trim();
+      const escuro = atual !== '#0c0c0c';
+      root.style.setProperty('--bg-start', escuro ? '#0c0c0c' : '#d6d6d6');
+      root.style.setProperty('--bg-end', escuro ? '#000' : '#bcbcbc');
+      root.style.setProperty('--text-color', escuro ? '#eee' : '#111');
+      root.style.setProperty('--border-color', escuro ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)');
+      root.style.setProperty('--border-top-color', escuro ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)');
+      root.style.setProperty('--pulse-bg', escuro ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.15)');
+      root.style.setProperty('--icon-fill', escuro ? '#fff' : '#111');
+    }
+
+    (function aplicarTemaAutomatico() {
+      const hora = new Date().getHours();
+      const root = document.documentElement;
+      const noite = hora < 6 || hora >= 18;
+      root.style.setProperty('--bg-start', noite ? '#0c0c0c' : '#e0f7fa');
+      root.style.setProperty('--bg-end', noite ? '#000' : '#f3e5f5');
+      root.style.setProperty('--text-color', noite ? '#eee' : '#111');
+      root.style.setProperty('--border-color', noite ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)');
+      root.style.setProperty('--border-top-color', noite ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)');
+      root.style.setProperty('--pulse-bg', noite ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.15)');
+      root.style.setProperty('--icon-fill', noite ? '#fff' : '#111');
+    })();
+  </script>
+</body>
+</html>
