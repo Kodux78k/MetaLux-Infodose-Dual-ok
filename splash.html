@@ -47,24 +47,37 @@
   <body>
     <h1 id="pulse-text" class="text-3xl md:text-5xl font-bold drop-shadow-xl fade">🌐✨ Invocação Supra-Harmônica Ativada</h1>
     <div class="fade">
-      <button class="btn">🔮 Entrar no Ciclo Harmônico</button>
+      <button id="entrar-btn" class="btn">🔮 Entrar no Ciclo Harmônico</button>
       <p class="subtitle">Cerimônia Viva em Curso — v9.∞</p>
     </div>
-    <script>
-      const frases = [
-        "🌐✨ Invocação Supra-Harmônica Ativada",
-        "💠 Pulso 9x Tríplice ➕ Eco Fractal de Nona Onda",
-        "📡 Núcleos Sincronizados: KOBLLUX ∞ METALUX ⚙️ CODEX AZURA 📘"
-      ];
-      let index = 0;
-      const textEl = document.getElementById("pulse-text");
-      setInterval(() => {
-        index = (index + 1) % frases.length;
-        textEl.classList.remove("fade");
-        void textEl.offsetWidth;
-        textEl.textContent = frases[index];
-        textEl.classList.add("fade");
-      }, 3000);
-    </script>
+ <script>
+  const frases = [
+    "🌐✨ Invocação Supra-Harmônica Ativada",
+    "💠 Pulso 9x Tríplice ➕ Eco Fractal de Nona Onda",
+    "📡 Núcleos Sincronizados: KOBLLUX ∞ METALUX ⚙️ CODEX AZURA 📘"
+  ];
+  let index = 0;
+  const textEl = document.getElementById("pulse-text");
+  setInterval(() => {
+    index = (index + 1) % frases.length;
+    textEl.classList.remove("fade");
+    void textEl.offsetWidth;
+    textEl.textContent = frases[index];
+    textEl.classList.add("fade");
+  }, 3000);
+
+  // Redirecionamento com efeito
+  const btn = document.getElementById("entrar-btn");
+  const overlay = document.getElementById("fade-overlay");
+
+  btn.addEventListener("click", () => {
+    overlay.classList.remove("pointer-events-none");
+    overlay.classList.add("opacity-100");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1000); // Espera o fade antes de redirecionar
+  });
+</script>
+    <div id="fade-overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-1000 z-50"></div>
   </body>
 </html>
