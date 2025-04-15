@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Infodose | Menu Horizontal ◉</title>
+<html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infodose | Menu Lateral</title>
   <style>
     body {
       margin: 0;
@@ -63,18 +61,19 @@
 
     .symbol-bar {
       position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
       display: flex;
-      gap: 24px;
+      flex-direction: column;
+      gap: 16px;
       z-index: 40;
     }
 
     .symbol-button {
-      width: 44px;
-      height: 44px;
-      font-size: 22px;
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
       color: white;
       background: rgba(255,255,255,0.08);
       border: none;
@@ -107,6 +106,37 @@
       background: rgba(0,0,0,0.08);
       color: #111;
     }
+
+    .lock-button {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      color: white;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .lock-button:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.15);
+    }
+
+    body.light-mode .lock-button {
+      background: rgba(0,0,0,0.08);
+      color: #111;
+      border-color: #111;
+    }
   </style>
 </head>
 <body class="light-mode">
@@ -114,15 +144,17 @@
   <div class="theme-toggle" onclick="toggleTheme()"></div>
 
   <div class="content">
-    <iframe id="frame" src="Splash.html" class="active"></iframe>
+    <iframe id="frame" src="Info.html" class="active"></iframe>
   </div>
 
   <div class="symbol-bar">
-    <button class="symbol-button" onclick="loadPage('Splash.html')">◉</button>
+    <button class="symbol-button" onclick="loadPage('Info.html')">◉</button>
     <button class="symbol-button" onclick="loadPage('MetaLux_UI_FINAL_V10_FUNCIONAL_OK_EDITADO.html')">◉</button>
     <button class="symbol-button" onclick="loadPage('Meta-pulso.html')">◉</button>
     <button class="symbol-button" onclick="loadPage('MetaLuxapp.html')">◉</button>
   </div>
+
+  <button class="lock-button" onclick="loadPage('splash.html')"></button>
 
   <script>
     const frame = document.getElementById('frame');
@@ -140,5 +172,5 @@
     }
   </script>
 
-</body>
-</html>
+
+</body></html>
