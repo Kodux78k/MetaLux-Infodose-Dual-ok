@@ -1,6 +1,8 @@
-<html lang="pt-BR"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Infodose | Menu Lateral</title>
   <style>
     body {
@@ -34,11 +36,11 @@
       opacity: 0;
       transition: opacity 0.6s ease;
       position: absolute;
+      z-index: 1;
     }
 
     iframe.active {
       opacity: 1;
-      z-index: 1;
     }
 
     .theme-toggle {
@@ -61,21 +63,29 @@
 
     .symbol-bar {
       position: fixed;
-      top: 50%;
+      top: 55%;
       right: 20px;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       z-index: 40;
+      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .symbol-bar.hidden {
+      opacity: 0;
+      transform: translateY(-50%) translateX(100%);
+      pointer-events: none;
     }
 
     .symbol-button {
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
+      width: 24px;
+      height: 24px;
+      font-size: 12px;
       color: white;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
       border: none;
       border-radius: 50%;
       cursor: pointer;
@@ -83,27 +93,19 @@
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(4px);
-      transition: transform 0.3s ease, background 0.3s ease;
-      animation: pulse 4s infinite ease-in-out;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0.6;
     }
 
     .symbol-button:hover {
-      background: rgba(255,255,255,0.2);
-      transform: scale(1.15);
-    }
-
-    .symbol-button:nth-child(1) { animation-delay: 0s; }
-    .symbol-button:nth-child(2) { animation-delay: 0.5s; }
-    .symbol-button:nth-child(3) { animation-delay: 1s; }
-    .symbol-button:nth-child(4) { animation-delay: 1.5s; }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.12); opacity: 1; }
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(255,255,255,0.3);
+      opacity: 1;
     }
 
     body.light-mode .symbol-button {
-      background: rgba(0,0,0,0.08);
+      background: rgba(0,0,0,0.05);
       color: #111;
     }
 
@@ -122,19 +124,59 @@
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(4px);
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: background 0.3s ease, border-color 0.3s ease;
       z-index: 50;
     }
 
     .lock-button:hover {
-      background: rgba(255,255,255,0.2);
-      transform: scale(1.0);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.8);
     }
 
     body.light-mode .lock-button {
-      background: rgba(0,0,0,0.08);
+      border-color: rgba(0,0,0,0.5);
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 28px;
+      height: 28px;
+      background: rgba(255,255,255,0.05);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+      z-index: 50;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.1);
+    }
+
+    body.light-mode .menu-toggle {
+      background: rgba(0,0,0,0.05);
       color: #111;
-      border-color: #111;
+    }
+
+    .menu-toggle-line {
+  p    width: 2px;
+      height: 16px;
+      background-color: white;
+    }
+
+    body.light-mode .menu-toggle-line {
+      background-color: #111;
+    }
+
+    .menu-toggle.active {
+      opacity: 0.4;
     }
   </style>
 </head>
