@@ -112,12 +112,10 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-      color: white;
-      background: rgba(255,255,255,0.08);
-      border: 2px solid white;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.5);
       border-radius: 50%;
       cursor: pointer;
       display: flex;
@@ -129,7 +127,7 @@
 
     .lock-button:hover {
       background: rgba(255,255,255,0.2);
-      transform: scale(1.15);
+      transform: scale(1.0);
     }
 
     body.light-mode .lock-button {
@@ -139,7 +137,7 @@
     }
   </style>
 </head>
-<body class="light-mode">
+<body class="dark-mode">
 
   <div class="theme-toggle" onclick="toggleTheme()"></div>
 
