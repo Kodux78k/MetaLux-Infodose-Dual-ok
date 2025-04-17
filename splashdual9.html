@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Splash Cinematográfico - Dual Infodose</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #000000, #1a1a1a);
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      animation: fadeInBody 2s ease forwards;
+      position: relative;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .logo-container {
+      position: relative;
+      z-index: 1;
+      width: 300px;
+      max-width: 80%;
+      animation: glow 3s ease-in-out infinite alternate;
+      padding: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-container object {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .infodose {
+      margin-top: 25px;
+      font-size: 2em;
+      color: #ccc;
+      opacity: 0;
+      animation: fadeIn 2s forwards 2s, pulse 4s infinite ease-in-out 4s;
+      z-index: 1;
+      position: relative;
+    }
+
+    .infodose strong {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .frase {
+      position: absolute;
+      bottom: 60px;
+      font-size: 1.2em;
+      color: #999;
+      opacity: 0;
+      animation: fadeIn 2s forwards 3s;
+      z-index: 1;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .frase strong {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    @keyframes glow {
+      from {
+        filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #ff00ff);
+      }
+      to {
+        filter: drop-shadow(0 0 25px #00ffff) drop-shadow(0 0 35px #ff00ff);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInBody {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOutBody {
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .infodose {
+        font-size: 1.5em;
+      }
+      .frase {
+        font-size: 1em;
+        bottom: 40px;
+      }
+      .logo-container {
+        width: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles-js"></div>
+
+  <div class="logo-container" onclick="goToIndex()">
+    <object data="style_type_Dual_Infodose_3.svg" type="image/svg+xml"></object>
+  </div>
+
+  <div class="infodose">dual.<strong>Infodose</strong></div>
+  <div class="frase"><strong>Sempre</strong> único<strong>. Sempre</strong> seu<strong>.</strong></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {
+          "value": 50,
+          "density": {
+            "enable": true,
+            "value_area": 700
+          }
+        },
+        "color": {
+          "value": ["#00ffff", "#ff00ff"]
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "out_mode": "out",
+          "straight": false,
+          "attract": {
+            "enable": true,
+            "rotateX": 500,
+            "rotateY": 1000
+          }
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": {
+            "enable": false
+          },
+          "onclick": {
+            "enable": false
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Função para redirecionar
+    function goToIndex() {
+      document.body.style.animation = "fadeOutBody 1.5s forwards";
+      setTimeout(function(){
+        window.location.href = "index.html";
+      }, 1500);
+    }
+
+    // Redirecionamento automático depois de 78 segundos
+    setTimeout(function() {
+      goToIndex();
+    }, 78000); // 78.000 milissegundos = 78 segundos
+  </script>
+
+</body>
+</html>
