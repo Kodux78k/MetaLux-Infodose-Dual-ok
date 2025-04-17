@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>MetaLux – Pulso Cósmico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      background: radial-gradient(circle at center, #0f0f0f 0%, #000000 100%);
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 4vh 2rem;
+      position: relative;
+      z-index: 0;
+    }
+
+    #particles-js {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    .circle, .espiral {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      margin: 1.5rem;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      animation: spin 6s linear infinite;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .circle {
+      border: 3px solid rgba(255,255,255,0.08);
+      border-top: 3px solid rgba(255,255,255,0.4);
+    }
+
+    .espiral {
+      border: 2px dashed rgba(255,255,255,0.2);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .display-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      font-size: 2rem;
+      text-align: center;
+      letter-spacing: 0.5rem;
+      margin: 1rem 0 2rem;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+    }
+
+    .label {
+      font-size: 0.9rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .chat-container {
+      max-width: 600px;
+      width: 90%;
+      padding: 20px;
+      margin: 0 auto 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 2;
+    }
+
+    .chat-bubble {
+      padding: 16px 24px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    .chat-bubble.infodose {
+      align-self: flex-start;
+      background: radial-gradient(ellipse at center, #000000 0%, #111111 60%, #ffffff10 100%);
+      color: #00ffff;
+      border: 1px solid #00ffff66;
+      box-shadow: 0 0 12px #00ffff44, inset 0 0 8px #ffffff11;
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: radial-gradient(ellipse at center, #ffffff 0%, #eeeeee 70%, #00000022 100%);
+      color: #ff00ff;
+      border: 1px solid #ff00ff66;
+      box-shadow: 0 0 12px #ff00ff44, inset 0 0 8px #00000011;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    strong {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles-js"></div>
+
+  <div class="circle" onclick="gerarCentro()">⭕️</div>
+  <div class="display-box" id="triadeBox">
+    TOQUE OS PULSOS COM INTENÇÃO
+  </div>
+  <div class="espiral" onclick="gerarLados()">🌀</div>
+  <div class="label">MetaLux • Pulso Vivo</div>
+
+  <!-- Chat Cósmico -->
+  <div class="chat-container">
+    <div class="chat-bubble infodose">
+      Olá, você está se conectando ao <strong>Centro do Pulso</strong>...
+    </div>
+    <div class="chat-bubble user">
+      Quero receber a próxima dose!
+    </div>
+    <div class="chat-bubble infodose">
+      Dose simbólica enviada. Frequência: <strong>⚡️⭕️⚡️</strong>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 88, density: { enable: true, value_area: 900 } },
+        color: { value: ["#00ffff", "#ff00ff", "#ffffff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.4, random: true },
+        size: { value: 2, random: true },
+        move: {
+          enable: true,
+          speed: 1.2,
+          direction: "none",
+          random: true,
+          out_mode: "out"
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: false },
+          onclick: { enable: false },
+          resize: true
+        }
+      },
+      retina_detect: true
+    });
+
+    const simbolosCentro = ["⭕️", "🜁", "🔮", "🪐", "🜂"];
+    const simbolosLado = ["⚡️", "✨", "🔥", "🌑", "💫"];
+    let centro = "⭕️";
+    let lado1 = "⚡️";
+    let lado2 = "⚡️";
+
+    function atualizarTriade() {
+      document.getElementById("triadeBox").innerText = `${lado1} ${centro} ${lado2}`;
+    }
+
+    function gerarCentro() {
+      centro = simbolosCentro[Math.floor(Math.random() * simbolosCentro.length)];
+      atualizarTriade();
+    }
+
+    function gerarLados() {
+      lado1 = simbolosLado[Math.floor(Math.random() * simbolosLado.length)];
+      lado2 = simbolosLado[Math.floor(Math.random() * simbolosLado.length)];
+      atualizarTriade();
+    }
+  </script>
+</body>
+</html>
