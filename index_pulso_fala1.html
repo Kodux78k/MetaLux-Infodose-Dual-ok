@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dual.Infodose</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #000000, #0f0f0f);
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pulse-button {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    #logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: filter 0.5s ease;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+      animation: pulseGlow 3s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1));
+      }
+      100% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+      }
+    }
+
+    #listen-btn {
+      margin-top: 30px;
+      background-color: transparent;
+      border: 2px solid white;
+      border-radius: 50px;
+      padding: 10px 20px;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    #listen-btn:hover {
+      background-color: white;
+      color: black;
+    }
+
+    #response {
+      margin-top: 30px;
+      font-size: 1.4rem;
+      opacity: 0.8;
+      text-align: center;
+      max-width: 90%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="pulse-button" id="pulse-btn">
+    <img src="./Logo_style_alt_Dual_Infodose.svg" alt="Logo Infodose" id="logo-img">
+  </div>
+
+  <button id="listen-btn">🎤 Falar</button>
+
+  <div id="response">Pulso inicial recebido.</div>
+
+  <script>
+    const pulseBtn = document.getElementById('pulse-btn');
+    const responseDiv = document.getElementById('response');
+    const listenBtn = document.getElementById('listen-btn');
+    const logoImg = document.getElementById('logo-img');
+
+    let recognition;
+    if ('webkitSpeechRecognition' in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.lang = 'pt-BR';
+      recognition.interimResults = false;
+    } else {
+      alert('Reconhecimento de voz não suportado no seu navegador.');
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.85;
+      speechSynthesis.speak(utterance);
+    }
+
+    function showThinking() {
+      responseDiv.textContent = 'Pensando...';
+    }
+
+    async function sendToAI(text) {
+      showThinking();
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+
+        const data = await response.json();
+        const aiText = data.choices?.[0]?.message?.content?.trim();
+
+        setTimeout(() => {
+          if (aiText) {
+            responseDiv.textContent = aiText;
+            speak(aiText);
+          } else {
+            responseDiv.textContent = "Pulso recebido.";
+            speak("Pulso recebido.");
+          }
+        }, 1500);
+      } catch (error) {
+        console.error('Erro:', error);
+        responseDiv.textContent = "Erro na comunicação.";
+        speak("Erro na comunicação.");
+      }
+    }
+
+    function startListening() {
+      if (recognition) {
+        logoImg.style.filter = "drop-shadow(0 0 30px rgba(0, 255, 255, 1))";
+        recognition.start();
+      }
+    }
+
+    function stopListening() {
+      logoImg.style.filter = "drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))";
+    }
+
+    pulseBtn.addEventListener('click', () => {
+      startListening();
+    });
+
+    listenBtn.addEventListener('click', () => {
+      startListening();
+    });
+
+    if (recognition) {
+      recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        sendToAI(text);
+        stopListening();
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Erro no reconhecimento:', event.error);
+        stopListening();
+      };
+    }
+  </script>
+
+</body>
+</html>
