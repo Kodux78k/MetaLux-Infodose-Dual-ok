@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Splash Cinematográfico - Dual Infodose</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -47,6 +48,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 1.2s ease, opacity 1.2s ease;
     }
 
     .logo-container object {
@@ -115,15 +117,43 @@
     }
 
     @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .explosion {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, white, transparent);
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      opacity: 0.8;
+      animation: explode 1s forwards ease-out;
+    }
+
+    @keyframes explode {
       0% {
-        transform: scale(1);
+        width: 0;
+        height: 0;
+        opacity: 0.8;
       }
-      50% {
-        transform: scale(1.08);
+      70% {
+        width: 600vw;
+        height: 600vw;
+        opacity: 1;
       }
       100% {
-        transform: scale(1);
+        opacity: 0;
       }
+    }
+
+    .logo-container.distort {
+      filter: url(#distort);
     }
 
     @media (max-width: 768px) {
@@ -142,40 +172,42 @@
 </head>
 <body>
 
+  <!-- Distortion SVG Filter -->
+  <svg style="display: none;">
+    <filter id="distort">
+      <feTurbulence baseFrequency="0.01" numOctaves="3" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="30"/>
+    </filter>
+  </svg>
+
+  <!-- Áudio Suave -->
+  <audio id="transitionSound" src="suave_portal.mp3" preload="auto"></audio>
+
+  <!-- Partículas -->
   <div id="particles-js"></div>
 
-  <div class="logo-container" onclick="goToIndex()">
+  <!-- Logo com Transição -->
+  <div class="logo-container" id="logo" onclick="goToIndex()">
     <object data="3D_logo_Dual_Infodose_10.svg" type="image/svg+xml"></object>
   </div>
 
+  <!-- Título e Frase -->
   <div class="infodose">dual.<strong>Infodose</strong></div>
   <div class="frase"><strong>Sempre</strong> único<strong>. Sempre</strong> seu<strong>.</strong></div>
 
+  <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
     particlesJS('particles-js', {
       "particles": {
         "number": {
           "value": 50,
-          "density": {
-            "enable": true,
-            "value_area": 700
-          }
+          "density": { "enable": true, "value_area": 700 }
         },
-        "color": {
-          "value": ["#00ffff", "#ff00ff"]
-        },
-        "shape": {
-          "type": "circle"
-        },
-        "opacity": {
-          "value": 0.5,
-          "random": true
-        },
-        "size": {
-          "value": 3,
-          "random": true
-        },
+        "color": { "value": ["#00ffff", "#ff00ff"] },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5, "random": true },
+        "size": { "value": 3, "random": true },
         "move": {
           "enable": true,
           "speed": 1.5,
@@ -183,38 +215,57 @@
           "random": true,
           "out_mode": "out",
           "straight": false,
-          "attract": {
-            "enable": true,
-            "rotateX": 500,
-            "rotateY": 1000
-          }
+          "attract": { "enable": true, "rotateX": 500, "rotateY": 1000 }
         }
       },
       "interactivity": {
-        "events": {
-          "onhover": {
-            "enable": false
-          },
-          "onclick": {
-            "enable": false
-          }
-        }
+        "events": { "onhover": { "enable": false }, "onclick": { "enable": false } }
       },
       "retina_detect": true
     });
 
-    // Função para redirecionar
     function goToIndex() {
-      document.body.style.animation = "fadeOutBody 1.5s forwards";
-      setTimeout(function(){
+      const logo = document.getElementById("logo");
+      const sound = document.getElementById("transitionSound");
+
+      // Ativar distorção visual
+      logo.classList.add("distort");
+
+      // Tocar som suave
+      sound.volume = 0.6;
+      sound.play();
+
+      // Animações cinematográficas com GSAP
+      gsap.to(logo, {
+        scale: 2,
+        rotation: 720,
+        duration: 1.2,
+        ease: "power3.out"
+      });
+
+      gsap.to(".infodose", { opacity: 0, duration: 0.8, delay: 0.3 });
+      gsap.to(".frase", { opacity: 0, duration: 0.8, delay: 0.3 });
+
+      // Explosão luminosa
+      const explosion = document.createElement("div");
+      explosion.className = "explosion";
+      document.body.appendChild(explosion);
+
+      // Fade final
+      setTimeout(() => {
+        document.body.style.animation = "fadeOutBody 1.2s forwards";
+      }, 800);
+
+      // Redireciona ao final
+      setTimeout(() => {
         window.location.href = "index.html";
-      }, 1500);
+      }, 1600);
     }
 
-    // Redirecionamento automático depois de 78 segundos
-    setTimeout(function() {
+    // Redirecionamento automático após 78s
+    setTimeout(() => {
       goToIndex();
-    }, 78000); // 78.000 milissegundos = 78 segundos
+    }, 78000);
   </script>
 
 </body>
