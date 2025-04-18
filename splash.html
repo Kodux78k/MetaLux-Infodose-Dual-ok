@@ -237,8 +237,7 @@
 
       // Animações cinematográficas com GSAP
       gsap.to(logo, {
-        scale: 2,
-        rotation: 720,
+        scale: 0,
         duration: 1.2,
         ease: "power3.out"
       });
@@ -247,9 +246,7 @@
       gsap.to(".frase", { opacity: 0, duration: 0.8, delay: 0.3 });
 
       // Explosão luminosa
-      const explosion = document.createElement("div");
-      explosion.className = "explosion";
-      document.body.appendChild(explosion);
+      
 
       // Fade final
       setTimeout(() => {
