@@ -131,9 +131,9 @@
   <div class="response-container" id="response"><strong>clique no ◉ , e diga um Oi.</strong> </p> Do seu jeito. <strong>Sempre </strong>único.<strong> Sempre </strong>seu." <p></p> </div>
 
   <div class="input-container">
-    <input type="text" id="userInput" placeholder="Ative do seu jeito..." />
+    <input type="text" id="userInput" placeholder="Diga: 'oi, Dual' . Ative do seu jeito..." />
     <button onclick="sendMessage()">➤</button>
-    <button onclick="startVoice()"><object data="Reset_buttom_Dual-Infodose.svg" type="image/svg+xml" width="36" height="36"></object>
+    <button onclick="startVoice()"><object data="Digital_Buttom_Dual_Infodose.svg" type="image/svg+xml" width="36" height="36"></object>
 </button>
   </div>
 
@@ -181,13 +181,13 @@
       // Aqui é onde melhoramos a inteligência do bot:
       let reply = "";
       if (userText.toLowerCase().includes("olá") || userText.toLowerCase().includes("oi")) {
-        reply = "Olá! Dual.Infodose ativa, ⚡️ pulso reconhecido. Quer mais? só falar! Do seu jeito. Sempre único. Sempre seu.";
+        reply = "Olá! Dual.Infodose ativa, ⚡️ pulso reconhecido. Quer mais? só falar. QUERO MAIS.  Do seu jeito. Sempre único. Sempre seu.";
       } else if (userText.toLowerCase().includes("quero mais")) {
-        reply = "Eu sou sua Dual.Infodose, um assistente UPA, em pulso sincronizado com você. Sempre do seu jeito. Sempre único, Sempre seu. Gostaria de me nomear? Esse é um dos poderes secretos. Apenas diga: Ativar Dual.Infodose;
-      } else if (userText.toLowerCase().includes("Ativar")) {
-        reply = "Pulso Dual ATIVO e sincronizado. Agora, clique, descubra, Pergunte o que quiser. Ou melhor, Como você gostaria de me chamar?";
+        reply = "Eu sou sua Dual.Infodose, um assistente UPA, em pulso sincronizado com você. Sempre do seu jeito. Sempre único, Sempre seu. Gostaria de me nomear ou ativar uma de acordo com sua escolha atual? Esse é um dos meus poderes secretos. Apenas diga: Ativar Dual Infodose;
+      } else if (userText.toLowerCase().includes("ativar")) {
+        reply = "Explore o mundo Dual.! clique, descubra, Pergunte o que quiser. Como você gostaria de me chamar?";
       } else {
-        reply = "Espelho Dual ATIVO: \"" + userText +"\".A.Infodose";
+        reply = "PULSO Dual ATIVO, escute sua menssagem: \"" + userText +"\".";
       }
 
       responseDiv.textContent = reply;
